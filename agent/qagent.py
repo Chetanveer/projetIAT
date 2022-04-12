@@ -115,7 +115,7 @@ class QAgent():
                 state = env.reset()
                 print("\r#> Ep. {}/{} Value {}".format(
                     episode, n_episodes,
-                    self.Q[state][self.select_greedy_action(state)]),
+                    np.sum(self.Q)),
                       end=" ")
                 # self.save_log(env, episode)
 
