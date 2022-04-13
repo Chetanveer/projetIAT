@@ -1,3 +1,4 @@
+from fileinput import filelineno
 import os
 import numpy as np
 from pyparsing import nested_expr
@@ -24,8 +25,12 @@ class QAgent():
     Cette classe d'agent représente un agent utilisant la méthode du Q-learning 
     pour mettre à jour sa politique d'action.
     """
-    def __init__(self, spaceInvaders: SpaceInvaders,
-                 eps_profile: EpsilonProfile, gamma: float, alpha: float):
+    def __init__(self,
+                 spaceInvaders: SpaceInvaders,
+                 eps_profile: EpsilonProfile,
+                 gamma: float,
+                 alpha: float,
+                 fileLog="logQ"):
         """A LIRE
         Ce constructeur initialise une nouvelle instance de la classe QAgent.
         Il doit stocker les différents paramètres nécessaires au fonctionnement de l'algorithme et initialiser la 
@@ -73,6 +78,8 @@ class QAgent():
 
         # Visualisation des données (vous n'avez pas besoin de comprendre cette partie)
         self.qvalues = pd.DataFrame(data={'episode': [], 'score': []})
+
+        self.fileLog = fileLog
 
     def getQ(self, state, action):
         return self.Q[state[0]][state[1]][state[2]][state[3]][action]
@@ -132,16 +139,17 @@ class QAgent():
 
             # Sauvegarde et affiche les données d'apprentissage
             if n_episodes >= 0:
-                print("\r#> Ep.: {}/{}    Avg. Qvalue: {}    Curr. Score: {}  ".
-                      format(episode, n_episodes - 1, np.average(self.Q),
-                             self.spaceInvaders.score_val),
-                      end=" ")
+                print(
+                    "\r#> Ep.: {}/{}    Avg. Qvalue: {}    Curr. Score: {}  ".
+                    format(episode, n_episodes - 1, np.average(self.Q),
+                           self.spaceInvaders.score_val),
+                    end=" ")
                 self.save_log(env, episode)
                 state = env.reset()
 
         self.qvalues.to_csv(
-            os.path.join(os.path.dirname(__file__),
-                         '../visualisation/logQ.csv'))
+            os.path.join(os.path.dirname(__file__), '../visualisation',
+                         self.fileLog + '.csv'))
 
     def updateQ(self, state, action, reward, next_state):
         """À COMPLÉTER!
