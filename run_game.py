@@ -9,10 +9,10 @@ from agent.qagent import QAgent
 
 def main():
 
-    n_episodes = 50  # *************** 200 3000
-    max_steps = 5000    # *************** 5060
+    n_episodes = 10  # *************** 200 3000
+    max_steps = 50    # *************** 5060
     gamma = 0.9
-    alpha = 0.2
+    alpha = 1 # MUST ALWAYS STAY 
     eps_profile = EpsilonProfile(1.0 , 0.1) # *** 1.0, 0.1
 
     game = SpaceInvaders(display=True)

@@ -66,9 +66,14 @@ class QAgent():
         self.eps_profile = eps_profile
         self.epsilon = self.eps_profile.initial
 
-        # # Visualisation des données (vous n'avez pas besoin de comprendre cette partie)
-        # self.qvalues = pd.DataFrame(data={'episode': [], 'value': []})
-        # self.values = pd.DataFrame(data={'nx': [maze.nx], 'ny': [maze.ny]})
+        # Visualisation des données (vous n'avez pas besoin de comprendre cette partie)
+        self.qvalues = pd.DataFrame(data={'episode': [], 'value': []})
+
+    def getQ(self, state, action):
+        return self.Q[state[0]][state[1]][state[2]][state[3]][action]
+
+    def setQ(self, state, action, value):
+        self.Q[state[0]][state[1]][state[2]][state[3]][action] = value
 
     def learn(self, env: SpaceInvaders, n_episodes, max_steps):
         """Cette méthode exécute l'algorithme de q-learning. 
@@ -115,16 +120,13 @@ class QAgent():
                 state = env.reset()
                 print("\r#> Ep. {}/{} Value {}".format(
                     episode, n_episodes,
-                    np.sum(self.Q)),
+                    np.max(self.Q)),
                       end=" ")
-                # self.save_log(env, episode)
+                self.save_log(env, episode)
 
-        # self.values.to_csv(
-        #     os.path.join(os.path.dirname(__file__),
-        #                  '../partie_3/visualisation/logV.csv'))
-        # self.qvalues.to_csv(
-        #     os.path.join(os.path.dirname(__file__),
-        #                  '../partie_3/visualisation/logQ.csv'))
+        self.qvalues.to_csv(
+            os.path.join(os.path.dirname(__file__),
+                         '../visualisation/logQ.csv'))
 
     def updateQ(self, state, action, reward, next_state):
         """À COMPLÉTER!
@@ -141,14 +143,11 @@ class QAgent():
         if next_state[2] > Y_MAX:
             next_state[2] = Y_MAX
 
-        val = (1. - self.alpha) * self.Q[state][action] + self.alpha * (reward + self.gamma * np.max(self.Q[next_state]))
-        if (val != 0):
-            print(val)
+        val = (1. - self.alpha) * self.getQ(state, action) + self.alpha * (reward + self.gamma * np.max(self.Q[next_state])) # TODO maybe
 
-        self.Q[state][action] = val
-
-        if (self.Q[state[0]][state[1]][state[2]][state[3]][action] != 0):
-            print((self.Q[state[0]][state[1]][state[2]][state[3]][action]))
+        # self.Q[state][action] = val
+        # self.Q[state[0]][state[1]][state[2]][state[3]][action] = val
+        self.setQ(state, action, val)
 
     def select_action(self, state : int):
         """À COMPLÉTER!
@@ -170,6 +169,12 @@ class QAgent():
         :param state: L'état courant
         :return: L'action gourmande
         """
+
+        # If invader reached boarder its y-position is set to a too big index. This one has to be
+        # decreased to make it at least Y_MAX
+        if state[2] > Y_MAX:
+            state[2] = Y_MAX
+
         mx = np.max(self.Q[state])
         # greedy action with random tie break
         return np.random.choice(np.where(self.Q[state] == mx)[0])
@@ -178,22 +183,11 @@ class QAgent():
         """Sauvegarde les données d'apprentissage.
         :warning: Vous n'avez pas besoin de comprendre cette méthode
         """
-        state = env.reset_using_existing_maze()
-        # Construit la fonction de valeur d'état associée à Q
-        V = np.zeros((int(self.maze.ny), int(self.maze.nx)))
-        for state in self.maze.getStates():
-            val = self.Q[state][self.select_action(state)]
-            V[state] = val
-
+        print(self.qvalues)
         self.qvalues = self.qvalues.append(
             {
                 'episode': episode,
-                'value': self.Q[state][self.select_greedy_action(state)]
+                'value': self.spaceInvaders.score_val
             },
             ignore_index=True)
-        self.values = self.values.append(
-            {
-                'episode': episode,
-                'value': np.reshape(V, (1, self.maze.ny * self.maze.nx))[0]
-            },
-            ignore_index=True)
+        print(self.qvalues)
