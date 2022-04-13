@@ -154,11 +154,6 @@ class QAgent():
         :param next_state: L'état suivant
         """
 
-        # If invader reached boarder its y-position is set to a too big index. This one has to be
-        # decreased to make it at least Y_MAX
-        if next_state[2] > Y_MAX:
-            next_state[2] = Y_MAX
-
         val = (1. - self.alpha) * self.getQ(state, action) + self.alpha * (
             reward + self.gamma * np.max(self.Q[next_state]))  # TODO maybe
 
@@ -186,11 +181,6 @@ class QAgent():
         :param state: L'état courant
         :return: L'action gourmande
         """
-
-        # If invader reached boarder its y-position is set to a too big index. This one has to be
-        # decreased to make it at least Y_MAX
-        if state[2] > Y_MAX:
-            state[2] = Y_MAX
 
         mx = np.max(self.Q[state])
         # greedy action with random tie break
