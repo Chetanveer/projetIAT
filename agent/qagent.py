@@ -60,7 +60,7 @@ class QAgent():
         self.na = NUMER_ACTIONS
 
         # Initialise la fonction de valeur Q
-        self.Q = np.zeros([self.nxp, self.nxi, self.nyi, self.nb, self.na])
+        self.Q = np.zeros([self.nxp, self.nxi, self.nb, self.na])
 
         self.spaceInvaders = spaceInvaders
 
@@ -75,14 +75,15 @@ class QAgent():
         self.qvalues = pd.DataFrame(data={'episode': [], 'score': []})
 
     def getQ(self, state, action):
-        return self.Q[state[0]][state[1]][state[2]][state[3]][action]
+        return self.Q[state[0]][state[1]][state[2]][action]
 
     def setQ(self, state, action, value):
-        self.Q[state[0]][state[1]][state[2]][state[3]][action] = value
+        self.Q[state[0]][state[1]][state[2]][action] = value
 
-    def saveQToFile(self):
-        np.save(os.path.join(os.path.dirname(__file__), '../LearnedQ.npy'),
-                self.Q)
+    def saveQToFile(self,
+                    file=os.path.join(os.path.dirname(__file__),
+                                      '../LearnedQ.npy')):
+        np.save(file, self.Q)
 
     def loadQFromFile(self,
                       file=os.path.join(os.path.dirname(__file__),
@@ -131,10 +132,11 @@ class QAgent():
 
             # Sauvegarde et affiche les données d'apprentissage
             if n_episodes >= 0:
-                print("\r#> Ep.: {}/{}    Avg. Qvalue: {}    Curr. Score: {}  ".
-                      format(episode, n_episodes - 1, np.average(self.Q),
-                             self.spaceInvaders.score_val),
-                      end=" ")
+                print(
+                    "\r#> Ep.: {}/{}    Avg. Qvalue: {}    Curr. Score: {}  ".
+                    format(episode, n_episodes - 1, np.average(self.Q),
+                           self.spaceInvaders.score_val),
+                    end=" ")
                 self.save_log(env, episode)
                 state = env.reset()
 
