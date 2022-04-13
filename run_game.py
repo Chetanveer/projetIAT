@@ -10,7 +10,7 @@ from agent.qagent import QAgent
 def main():
     ### AGENT LEARN ###
     n_episodes = 10  # *************** 200 3000
-    max_steps = 50    # *************** 5060
+    max_steps = 500    # *************** 5060
     gamma = 0.95 # big: end steps are equally important, small: only current success is important
     # Shouldn't really make difference because current and future score are directly correlated
 
