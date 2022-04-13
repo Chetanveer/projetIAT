@@ -4,17 +4,17 @@ import pandas as pd
 
 
 class logAnalysis:
+    def __init__(self, file: str):
+        self.file = file
+        self.values = []
 
-	def __init__(self, file : str):
-		self.file = file
-		self.values = []
+    def printCurves(self):
+        df = pd.read_csv(self.file)
+        fig = px.scatter(x=df["episode"], y=df["score"])
+        fig.show()
 
-	def printCurves(self):
-		df = pd.read_csv(os.path.join(os.path.dirname(__file__),
-                         'visualisation/logQ.csv'))
-		fig = px.scatter(x=df["episode"], y=df["score"])
-		fig.show()
 
 if __name__ == '__main__':
-	log = logAnalysis("")
-	log.printCurves()
+    log = logAnalysis(
+        os.path.join(os.path.dirname(__file__), 'visualisation/logQ.csv'))
+    log.printCurves()

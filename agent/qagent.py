@@ -80,9 +80,10 @@ class QAgent():
     def setQ(self, state, action, value):
         self.Q[state[0]][state[1]][state[2]][state[3]][action] = value
 
-    def saveQToFile(self):
-        np.save(os.path.join(os.path.dirname(__file__), '../LearnedQ.npy'),
-                self.Q)
+    def saveQToFile(self,
+                    file=os.path.join(os.path.dirname(__file__),
+                                      '../LearnedQ.npy')):
+        np.save(file, self.Q)
 
     def loadQFromFile(self,
                       file=os.path.join(os.path.dirname(__file__),
