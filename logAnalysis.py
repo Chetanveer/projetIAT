@@ -16,5 +16,5 @@ class logAnalysis:
 
 if __name__ == '__main__':
     log = logAnalysis(
-        os.path.join(os.path.dirname(__file__), 'visualisation/Q_E1000_S5000_G0.95_I1.0_F0.1.csv'))
+        os.path.join(os.path.dirname(__file__), 'visualisation/logQ.csv'))
     log.printCurves()

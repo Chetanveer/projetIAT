@@ -63,7 +63,7 @@ class QAgent():
         self.na = NUMER_ACTIONS
 
         # Initialise la fonction de valeur Q
-        self.Q = np.zeros([self.nxp, self.nxi, self.nyi, self.nb, self.na])
+        self.Q = np.zeros([self.nxp, self.nxi, self.nb, self.na])
 
         self.spaceInvaders = spaceInvaders
 
@@ -80,10 +80,10 @@ class QAgent():
         self.fileLog = fileLog
 
     def getQ(self, state, action):
-        return self.Q[state[0]][state[1]][state[2]][state[3]][action]
+        return self.Q[state[0]][state[1]][state[2]][action]
 
     def setQ(self, state, action, value):
-        self.Q[state[0]][state[1]][state[2]][state[3]][action] = value
+        self.Q[state[0]][state[1]][state[2]][action] = value
 
     def saveQToFile(self,
                     file=os.path.join(os.path.dirname(__file__),
