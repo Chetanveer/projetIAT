@@ -78,8 +78,8 @@ class QAgent():
     def saveQToFile(self):
         np.save("LearnedQ.npy", self.Q)
 
-    def getQFromFile(self):
-        self.Q = np.load("LearnedQ.npy")
+    def getQFromFile(self, file = "LearnedQ.npy"):
+        self.Q = np.load(file)
 
     def learn(self, env: SpaceInvaders, n_episodes, max_steps):
         """Cette méthode exécute l'algorithme de q-learning. 
