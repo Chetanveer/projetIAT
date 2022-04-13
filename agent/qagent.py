@@ -5,13 +5,14 @@ from epsilon_profile import EpsilonProfile
 
 # Suppress future warnings from pandas
 import warnings
+
 warnings.simplefilter(action='ignore', category=FutureWarning)
 import pandas as pd
 
 from game import SpaceInvaders
 
 X_MIN = 0
-X_MAX = 76 # TODO
+X_MAX = 76  # TODO
 Y_MIN = 4
 Y_MAX = 49
 
@@ -80,9 +81,12 @@ class QAgent():
         self.Q[state[0]][state[1]][state[2]][state[3]][action] = value
 
     def saveQToFile(self):
-        np.save(os.path.join(os.path.dirname(__file__), '../LearnedQ.npy'), self.Q)
+        np.save(os.path.join(os.path.dirname(__file__), '../LearnedQ.npy'),
+                self.Q)
 
-    def loadQFromFile(self, file = os.path.join(os.path.dirname(__file__), '../LearnedQ.npy')):
+    def loadQFromFile(self,
+                      file=os.path.join(os.path.dirname(__file__),
+                                        '../LearnedQ.npy')):
         self.Q = np.load(file)
 
     def learn(self, env: SpaceInvaders, n_episodes, max_steps):
@@ -127,9 +131,9 @@ class QAgent():
 
             # Sauvegarde et affiche les données d'apprentissage
             if n_episodes >= 0:
-                print("\r#> Ep. {}/{} Value {}".format(
-                    episode, n_episodes,
-                    np.sum(self.Q)),
+                print("\r#> Ep.: {}/{}    Avg. Qvalue: {}    Curr. Score: {}  ".
+                      format(episode, n_episodes - 1, np.average(self.Q),
+                             self.spaceInvaders.score_val),
                       end=" ")
                 self.save_log(env, episode)
                 state = env.reset()
@@ -153,23 +157,24 @@ class QAgent():
         if next_state[2] > Y_MAX:
             next_state[2] = Y_MAX
 
-        val = (1. - self.alpha) * self.getQ(state, action) + self.alpha * (reward + self.gamma * np.max(self.Q[next_state])) # TODO maybe
+        val = (1. - self.alpha) * self.getQ(state, action) + self.alpha * (
+            reward + self.gamma * np.max(self.Q[next_state]))  # TODO maybe
 
         # self.Q[state][action] = val
         # self.Q[state[0]][state[1]][state[2]][state[3]][action] = val
         self.setQ(state, action, val)
 
-    def select_action(self, state : int):
+    def select_action(self, state: int):
         """À COMPLÉTER!
         Cette méthode retourne une action échantilloner selon le processus d'exploration (ici epsilon-greedy).
         :param state: L'état courant
         :return: L'action 
         """
         if np.random.rand() < self.epsilon:
-            a = np.random.randint(self.na)      # random action
+            a = np.random.randint(self.na)  # random action
         else:
             a = self.select_greedy_action(state)
-        
+
         return a
 
     def select_greedy_action(self, state: 'Tuple[int, int]'):
@@ -200,4 +205,3 @@ class QAgent():
                 'score': self.spaceInvaders.score_val
             },
             ignore_index=True)
-
