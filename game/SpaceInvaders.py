@@ -91,13 +91,11 @@ class SpaceInvaders():
         le représenter. Vous pouvez utiliser les accesseurs ci-dessus pour cela.
         """
         # return "L'état n'est pas implémenté (SpaceInvaders.get_state)"
-        x_p = int(self.get_player_X())//10
+        x_player = int(self.get_player_X())//10
         x_invader = int(self.get_indavers_X()[0])//10
-        y_invader = int(self.get_indavers_Y()[0])//10
         bulletState = 1 if self.get_bullet_state() == "rest" else 0
 
-        stateVect = [x_p, x_invader, y_invader, bulletState]
-        return stateVect
+        return [x_player - x_invader, bulletState]
 
     def reset(self):
         """Reset the game at the initial state
