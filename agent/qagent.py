@@ -7,7 +7,7 @@ import pandas as pd
 from game import SpaceInvaders
 
 X_MIN = 0
-X_MAX = 75
+X_MAX = 76 # TODO
 Y_MIN = 4
 Y_MAX = 49
 
@@ -117,12 +117,12 @@ class QAgent():
 
             # Sauvegarde et affiche les données d'apprentissage
             if n_episodes >= 0:
-                state = env.reset()
                 print("\r#> Ep. {}/{} Value {}".format(
                     episode, n_episodes,
                     np.max(self.Q)),
                       end=" ")
                 self.save_log(env, episode)
+                state = env.reset()
 
         self.qvalues.to_csv(
             os.path.join(os.path.dirname(__file__),

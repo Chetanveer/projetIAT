@@ -10,6 +10,11 @@ class logAnalysis:
 		self.values = []
 
 	def printCurves(self):
-		df = pd.read_csv(os.path.abspath("partie_3/visualisation/logQ.csv"))
+		df = pd.read_csv(os.path.join(os.path.dirname(__file__),
+                         'visualisation/logQ.csv'))
 		fig = px.scatter(x=df["episode"], y=df["value"])
 		fig.show()
+
+if __name__ == '__main__':
+	log = logAnalysis("")
+	log.printCurves()
