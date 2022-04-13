@@ -93,10 +93,10 @@ class SpaceInvaders():
         # return "L'état n'est pas implémenté (SpaceInvaders.get_state)"
         x_p = int(self.get_player_X())//10
         x_invader = int(self.get_indavers_X()[0])//10
-        y_invader = int(self.get_indavers_Y()[0])//10
+        # y_invader = int(self.get_indavers_Y()[0])//10
         bulletState = 1 if self.get_bullet_state() == "rest" else 0
 
-        stateVect = [x_p, x_invader, y_invader, bulletState]
+        stateVect = [x_p, x_invader, bulletState]
         return stateVect
 
     def reset(self):
