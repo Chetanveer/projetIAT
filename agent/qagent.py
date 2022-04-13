@@ -2,6 +2,10 @@ import os
 import numpy as np
 from pyparsing import nested_expr
 from epsilon_profile import EpsilonProfile
+
+# Suppress future warnings from pandas
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 import pandas as pd
 
 from game import SpaceInvaders
@@ -76,9 +80,9 @@ class QAgent():
         self.Q[state[0]][state[1]][state[2]][state[3]][action] = value
 
     def saveQToFile(self):
-        np.save("LearnedQ.npy", self.Q)
+        np.save(os.path.join(os.path.dirname(__file__), '../LearnedQ.npy'), self.Q)
 
-    def getQFromFile(self, file = "LearnedQ.npy"):
+    def loadQFromFile(self, file = os.path.join(os.path.dirname(__file__), '../LearnedQ.npy')):
         self.Q = np.load(file)
 
     def learn(self, env: SpaceInvaders, n_episodes, max_steps):
