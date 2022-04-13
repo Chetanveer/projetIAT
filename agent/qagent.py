@@ -67,13 +67,19 @@ class QAgent():
         self.epsilon = self.eps_profile.initial
 
         # Visualisation des données (vous n'avez pas besoin de comprendre cette partie)
-        self.qvalues = pd.DataFrame(data={'episode': [], 'value': []})
+        self.qvalues = pd.DataFrame(data={'episode': [], 'score': []})
 
     def getQ(self, state, action):
         return self.Q[state[0]][state[1]][state[2]][state[3]][action]
 
     def setQ(self, state, action, value):
         self.Q[state[0]][state[1]][state[2]][state[3]][action] = value
+
+    def saveQToFile(self):
+        np.save("LearnedQ.npy", self.Q)
+
+    def getQFromFile(self):
+        self.Q = np.load("LearnedQ.npy")
 
     def learn(self, env: SpaceInvaders, n_episodes, max_steps):
         """Cette méthode exécute l'algorithme de q-learning. 
@@ -119,7 +125,7 @@ class QAgent():
             if n_episodes >= 0:
                 print("\r#> Ep. {}/{} Value {}".format(
                     episode, n_episodes,
-                    np.max(self.Q)),
+                    np.sum(self.Q)),
                       end=" ")
                 self.save_log(env, episode)
                 state = env.reset()
@@ -183,11 +189,11 @@ class QAgent():
         """Sauvegarde les données d'apprentissage.
         :warning: Vous n'avez pas besoin de comprendre cette méthode
         """
-        print(self.qvalues)
+
         self.qvalues = self.qvalues.append(
             {
                 'episode': episode,
-                'value': self.spaceInvaders.score_val
+                'score': self.spaceInvaders.score_val
             },
             ignore_index=True)
-        print(self.qvalues)
+
