@@ -8,8 +8,8 @@ from game import SpaceInvaders
 
 X_MIN = 0
 X_MAX = 75
-Y_MIN = 0
-Y_MAX = 25
+Y_MIN = 4
+Y_MAX = 49
 
 NUMER_ACTIONS = 4
 
@@ -47,9 +47,9 @@ class QAgent():
         :type mazeValues: data frame pandas
         """
 
-        self.nxp = X_MAX - X_MIN + 1
-        self.nxi = X_MAX - X_MIN + 1
-        self.nyi = Y_MAX - Y_MIN + 1
+        self.nxp = X_MAX + 1
+        self.nxi = X_MAX + 1
+        self.nyi = Y_MAX + 1
         self.nb = 1 + 1
 
         self.na = NUMER_ACTIONS
@@ -126,46 +126,42 @@ class QAgent():
         #     os.path.join(os.path.dirname(__file__),
         #                  '../partie_3/visualisation/logQ.csv'))
 
-    def updateQ(self, state: 'Tuple[int, int]', action: int, reward: float,
-                next_state: 'Tuple[int, int]'):
+    def updateQ(self, state, action, reward, next_state):
         """À COMPLÉTER!
         Cette méthode utilise une transition pour mettre à jour la fonction de valeur Q de l'agent. 
         Une transition est définie comme un tuple (état, action récompense, état suivant).
-
         :param state: L'état origine
         :param action: L'action
         :param reward: La récompense perçue
         :param next_state: L'état suivant
         """
 
-        delta = reward + self.gamma * self.Q[next_state][
-            self.select_greedy_action(next_state)] - self.Q[next_state][action]
-        self.Q[next_state][action] += self.alpha * delta
+        # If invader reached boarder its y-position is set to a too big index. This one has to be
+        # decreased to make it at least Y_MAX
+        if next_state[2] > Y_MAX:
+            next_state[2] = Y_MAX
 
-        # self.Q[state][agent] = (
-        #     1. - self.alpha) * self.Q[state][action] + self.alpha * (
-        #         reward + self.gamma * np.max(self.Q[next_state]))
+        val = (1. - self.alpha) * self.Q[state][action] + self.alpha * (reward + self.gamma * np.max(self.Q[next_state]))
+        if (val != 0):
+            print(val)
 
-        # print("d = ", delta)
-        # print("Q(s,a) = ", self.Q[state[0], state[1], action])
+        self.Q[state][action] = val
 
-        # raise NotImplementedError("Q-learning NotImplementedError at Function updateQ.")
+        if (self.Q[state[0]][state[1]][state[2]][state[3]][action] != 0):
+            print((self.Q[state[0]][state[1]][state[2]][state[3]][action]))
 
-    def select_action(self, state: 'Tuple[int, int]'):
+    def select_action(self, state : int):
         """À COMPLÉTER!
         Cette méthode retourne une action échantilloner selon le processus d'exploration (ici epsilon-greedy).
-
         :param state: L'état courant
         :return: L'action 
         """
-
-        # With probability epsilon, make random choice
-        if (np.random.binomial(1, self.epsilon, 1)[0] == 1):
-            return np.random.randint(0, 4, 1)
+        if np.random.rand() < self.epsilon:
+            a = np.random.randint(self.na)      # random action
         else:
-            return self.select_greedy_action(state)
-
-        # raise NotImplementedError("Q-learning NotImplementedError at Function select_action.")
+            a = self.select_greedy_action(state)
+        
+        return a
 
     def select_greedy_action(self, state: 'Tuple[int, int]'):
         """

@@ -94,7 +94,7 @@ class SpaceInvaders():
         x_p = int(self.get_player_X())//10
         x_invader = int(self.get_indavers_X()[0])//10
         y_invader = int(self.get_indavers_Y()[0])//10
-        bulletState = True if self.get_bullet_state() == "rest" else False
+        bulletState = 1 if self.get_bullet_state() == "rest" else 0
 
         stateVect = [x_p, x_invader, y_invader, bulletState]
         return stateVect

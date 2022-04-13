@@ -9,9 +9,9 @@ from agent.qagent import QAgent
 
 def main():
 
-    n_episodes = 1000  # *************** 200 3000
-    max_steps = 500    # *************** 5060
-    gamma = 1.
+    n_episodes = 50  # *************** 200 3000
+    max_steps = 5000    # *************** 5060
+    gamma = 0.9
     alpha = 0.2
     eps_profile = EpsilonProfile(1.0 , 0.1) # *** 1.0, 0.1
 
@@ -26,7 +26,7 @@ def main():
     while True:
         action = controller.select_action(state)
         state, reward, is_done = game.step(action)
-        # print("position of X"+str(game.get_state()))
+        #print("State: " + str(state))
         # print("position of Y" + str(game.get_player_Y())
         # print("position of X_invader" + str(game.get_invaders_X())
         # print("position of Y_invader" + str(game.get_invaders_Y())
