@@ -87,12 +87,12 @@ class QAgent():
 
     def saveQToFile(self,
                     file=os.path.join(os.path.dirname(__file__),
-                                      '../LearnedQ.npy')):
+                                      '../LearnedQ/LearnedQ.npy')):
         np.save(file, self.Q)
 
     def loadQFromFile(self,
                       file=os.path.join(os.path.dirname(__file__),
-                                        '../LearnedQ.npy')):
+                                        '../LearnedQ/LearnedQ.npy')):
         self.Q = np.load(file)
 
     def learn(self, env: SpaceInvaders, n_episodes, max_steps):
