@@ -39,7 +39,7 @@ def main():
     for eps_i in [0.95, 0.5, 0.1]:
         for eps_f in [0.1, 0.0, 0.01]:
             for max_steps in [1000]:
-                n_episodes = 500000
+                n_episodes = 50000
                 # max_steps = 3000
                 gamma = 0.95
                 alpha = 1
