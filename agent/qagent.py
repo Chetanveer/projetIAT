@@ -13,7 +13,7 @@ from game import SpaceInvaders
 X_MIN = 0
 X_MAX = 76  # TODO
 Y_MIN = 0
-Y_MAX = 9
+Y_MAX = 10
 
 NUMER_ACTIONS = 4
 
@@ -154,6 +154,11 @@ class QAgent():
         :param next_state: L'état suivant
         """
 
+        # If invader reached boarder its y-position is set to a too small value. This one has to be
+        # increased to make it at least Y_MAX
+        if next_state[1] < Y_MIN:
+            next_state[1] = Y_MIN
+
         val = (1. - self.alpha) * self.getQ(state, action) + self.alpha * (
             reward + self.gamma * np.max(self.Q[next_state]))  # TODO maybe
 
@@ -181,6 +186,11 @@ class QAgent():
         :param state: L'état courant
         :return: L'action gourmande
         """
+
+        # If invader reached boarder its y-position is set to a too small value. This one has to be
+        # increased to make it at least Y_MAX
+        if state[1] < Y_MIN:
+            state[1] = Y_MIN
 
         mx = np.max(self.Q[state])
         # greedy action with random tie break

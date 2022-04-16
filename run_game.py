@@ -9,33 +9,31 @@ from agent.qagent import QAgent
 
 
 def main():
-    game = SpaceInvaders(display=True)
+    game = SpaceInvaders(display=False)
 
-    n_episodes = 1000
-    max_steps = 700
-    gamma = 0.95
-    alpha = 1
-    eps_profile = EpsilonProfile(0.1, 0.0)
-    fileName = "Q_{}_E{}_S{}_G{}_I{}_F{}".format("SD", n_episodes, max_steps,
-                                                 gamma, eps_profile.initial,
-                                                 eps_profile.final)
-    controller = QAgent(game, eps_profile, gamma, alpha, fileName)
+    # n_episodes = 1000
+    # max_steps = 700
+    # gamma = 0.95
+    # alpha = 1
+    # eps_profile = EpsilonProfile(0.1, 0.0)
+    # fileName = "Q_{}_E{}_S{}_G{}_I{}_F{}".format("SXY", n_episodes, max_steps,
+    #                                              gamma, eps_profile.initial,
+    #                                              eps_profile.final)
+    # controller = QAgent(game, eps_profile, gamma, alpha, fileName)
 
     # controller.loadQFromFile(
     #     os.path.abspath(
     #         os.path.join("LearnedQ/",
     #                      fileName + ".npy")))
 
-    controller = KeyboardController()
+    # ### PLAY GAME ###
+    # state = game.reset()
+    # while True:
+    #     action = controller.select_action(state)
+    #     state, reward, is_done = game.step(action)
+    #     print(state)
 
-    ### PLAY GAME ###
-    state = game.reset()
-    while True:
-        action = controller.select_action(state)
-        state, reward, is_done = game.step(action)
-        print(state)
-
-        # sleep(0.0001)
+    #     # sleep(0.0001)
 
     # # -------------------------------------------------------------------------
     # for gamma in [0.95, 0.5, 0.1]:
@@ -45,7 +43,7 @@ def main():
     #         # gamma = 0.95
     #         alpha = 1
     #         eps_profile = EpsilonProfile(1.0, 0.1)
-    #         fileName = "Q_{}_E{}_S{}_G{}_I{}_F{}".format("SD", n_episodes, max_steps, gamma,
+    #         fileName = "Q_{}_E{}_S{}_G{}_I{}_F{}".format("SXY", n_episodes, max_steps, gamma,
     #                                                 eps_profile.initial,
     #                                                 eps_profile.final)
     #         controller = QAgent(game, eps_profile, gamma, alpha, fileName)
@@ -72,12 +70,12 @@ def main():
     #         )
 
     # -------------------------------------------------------------------------
-    n_episodes = 1000
+    n_episodes = 2000
     max_steps = 700
     gamma = 0.95
     alpha = 1
-    eps_profile = EpsilonProfile(0.1, 0.0)
-    fileName = "Q_{}_E{}_S{}_G{}_I{}_F{}".format("SD", n_episodes, max_steps, gamma,
+    eps_profile = EpsilonProfile(0.9, 0.1)
+    fileName = "Q_{}_E{}_S{}_G{}_I{}_F{}".format("SXY", n_episodes, max_steps, gamma,
                                               eps_profile.initial,
                                               eps_profile.final)
     controller = QAgent(game, eps_profile, gamma, alpha, fileName)
@@ -109,7 +107,7 @@ def main():
     # gamma = 0.999
     # alpha = 1
     # eps_profile = EpsilonProfile(1.0, 0.1)
-    # fileName = "Q_{}_E{}_S{}_G{}_I{}_F{}".format("SD", n_episodes, max_steps, gamma,
+    # fileName = "Q_{}_E{}_S{}_G{}_I{}_F{}".format("SXY", n_episodes, max_steps, gamma,
     #                                           eps_profile.initial,
     #                                           eps_profile.final)
     # controller = QAgent(game, eps_profile, gamma, alpha, fileName)
@@ -141,7 +139,7 @@ def main():
     # gamma = 0.95
     # alpha = 1
     # eps_profile = EpsilonProfile(1.0, 0.5)
-    # fileName = "Q_{}_E{}_S{}_G{}_I{}_F{}".format("SD", n_episodes, max_steps, gamma,
+    # fileName = "Q_{}_E{}_S{}_G{}_I{}_F{}".format("SXY", n_episodes, max_steps, gamma,
     #                                           eps_profile.initial,
     #                                           eps_profile.final)
     # controller = QAgent(game, eps_profile, gamma, alpha, fileName)
