@@ -93,9 +93,13 @@ class SpaceInvaders():
         # return "L'état n'est pas implémenté (SpaceInvaders.get_state)"
         x_player = int(self.get_player_X())//10
         x_invader = int(self.get_indavers_X()[0])//10
+
+        y_player = int(self.get_player_Y())//50
+        y_invader = int(self.get_indavers_Y()[0])//50
+
         bulletState = 1 if self.get_bullet_state() == "rest" else 0
 
-        return [x_player - x_invader, bulletState]
+        return [x_player - x_invader, y_player - y_invader, bulletState]
 
     def reset(self):
         """Reset the game at the initial state

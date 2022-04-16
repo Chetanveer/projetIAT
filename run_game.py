@@ -21,16 +21,19 @@ def main():
                                                  eps_profile.final)
     controller = QAgent(game, eps_profile, gamma, alpha, fileName)
 
-    controller.loadQFromFile(
-        os.path.abspath(
-            os.path.join("LearnedQ/",
-                         fileName + ".npy")))
+    # controller.loadQFromFile(
+    #     os.path.abspath(
+    #         os.path.join("LearnedQ/",
+    #                      fileName + ".npy")))
+
+    controller = KeyboardController()
 
     ### PLAY GAME ###
     state = game.reset()
     while True:
-        action = controller.select_greedy_action(state)
+        action = controller.select_action(state)
         state, reward, is_done = game.step(action)
+        print(state)
 
         # sleep(0.0001)
 

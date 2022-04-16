@@ -12,8 +12,8 @@ from game import SpaceInvaders
 
 X_MIN = 0
 X_MAX = 76  # TODO
-Y_MIN = 4
-Y_MAX = 49
+Y_MIN = 0
+Y_MAX = 9
 
 NUMER_ACTIONS = 4
 
@@ -58,7 +58,7 @@ class QAgent():
         self.na = NUMER_ACTIONS
 
         # Initialise la fonction de valeur Q
-        self.Q = np.zeros([X_MAX + 1, 1 + 1 , self.na])
+        self.Q = np.zeros([X_MAX + 1, Y_MAX + 1, 1 + 1 , self.na])
 
         self.spaceInvaders = spaceInvaders
 
@@ -75,10 +75,10 @@ class QAgent():
         self.fileLog = fileLog
 
     def getQ(self, state, action):
-        return self.Q[state[0]][state[1]][action]
+        return self.Q[state[0]][state[1]][state[2]][action]
 
     def setQ(self, state, action, value):
-        self.Q[state[0]][state[1]][action] = value
+        self.Q[state[0]][state[1]][state[2]][action] = value
 
     def saveQToFile(self,
                     file=os.path.join(os.path.dirname(__file__),
