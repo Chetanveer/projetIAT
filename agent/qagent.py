@@ -58,7 +58,7 @@ class QAgent():
         self.na = NUMER_ACTIONS
 
         # Initialise la fonction de valeur Q
-        self.Q = np.zeros([X_MAX + 1, Y_MAX + 1, 1 + 1 , self.na])
+        self.Q = np.zeros([X_MAX + 1, Y_MAX + 1, 1 + 1, self.na])
 
         self.spaceInvaders = spaceInvaders
 
@@ -139,6 +139,14 @@ class QAgent():
                     end=" ")
                 self.save_log(env, episode)
                 state = env.reset()
+
+            # Save Q for for further analysis
+            if episode % 1000 == 0:
+                self.saveQToFile(
+                    os.path.join(
+                        os.path.dirname(__file__),
+                        '../QEvolution_Q_SXY_E50000_S500_G0.95_I0.7_F0.01',
+                        str(episode) + '.npy'))
 
         self.qvalues.to_csv(
             os.path.join(os.path.dirname(__file__), '../visualisation',
