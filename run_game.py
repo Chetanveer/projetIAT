@@ -9,36 +9,59 @@ from agent.qagent import QAgent
 
 
 def main():
-    game = SpaceInvaders(display=False)
+    game = SpaceInvaders(display=True)
 
-    for eps_i in [0.7]:
-        for eps_f in [0.05]:
-            n_episodes = 100000
-            max_steps = 500
-            gamma = 0.95
-            alpha = 1
-            eps_profile = EpsilonProfile(eps_i, eps_f)
-            fileName = "Q_{}_E{}_S{}_G{}_I{}_F{}".format("SXY", n_episodes, max_steps,
-                                                        gamma, eps_profile.initial,
-                                                        eps_profile.final)
-            controller = QAgent(game, eps_profile, gamma, alpha, fileName)
+    # for eps_i in [0.7]:
+    #     for eps_f in [0.05]:
+    #         n_episodes = 100000
+    #         max_steps = 500
+    #         gamma = 0.95
+    #         alpha = 1
+    #         eps_profile = EpsilonProfile(eps_i, eps_f)
+    #         fileName = "Q_{}_E{}_S{}_G{}_I{}_F{}".format("SXY", n_episodes, max_steps,
+    #                                                     gamma, eps_profile.initial,
+    #                                                     eps_profile.final)
+    #         controller = QAgent(game, eps_profile, gamma, alpha, fileName)
 
-            controller.loadQFromFile(
-                os.path.abspath(
-                    os.path.join("LearnedQ/",
-                                fileName + ".npy")))
+    #         controller.loadQFromFile(
+    #             os.path.abspath(
+    #                 os.path.join("LearnedQ/",
+    #                             fileName + ".npy")))
 
-            ### PLAY GAME ###
-            state = game.reset()
-            # startTime = time()
-            # while time() < startTime + 10:
-            while True:
-                action = controller.select_greedy_action(state)
-                state, reward, is_done = game.step(action)
-                # print(state)
-                # sleep(0.0001)
+    #         ### PLAY GAME ###
+    #         state = game.reset()
+    #         # startTime = time()
+    #         # while time() < startTime + 10:
+    #         while True:
+    #             action = controller.select_greedy_action(state)
+    #             state, reward, is_done = game.step(action)
+    #             # print(state)
+    #             # sleep(0.0001)
 
-            game.reset()
+    #         game.reset()
+
+    # -------------------------------------------------------------------------
+
+    gamma = 0.95
+    alpha = 1
+    eps_profile = EpsilonProfile(0, 0)
+
+    for file in os.listdir(os.path.abspath("LearnedQ")):
+        controller = QAgent(game, eps_profile, gamma, alpha)
+        controller.loadQFromFile(os.path.join(os.path.abspath("LearnedQ"), file))
+
+        ### PLAY GAME ###
+        state = game.reset()
+        i = 0
+        while i < 20000:
+        # while True:
+            i += 1
+            action = controller.select_greedy_action(state)
+            state, reward, is_done = game.step(action)
+            # print(state)
+            # sleep(0.0001)
+
+        print(file, "    score: ", game.score_val)
 
     # -------------------------------------------------------------------------
     # for eps_i in [0.7]:
