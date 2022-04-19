@@ -70,7 +70,7 @@ class QAgent():
         self.epsilon = self.eps_profile.initial
 
         # Visualisation des données (vous n'avez pas besoin de comprendre cette partie)
-        self.qvalues = pd.DataFrame(data={'episode': [], 'score': []})
+        self.qvalues = pd.DataFrame(data={'episode': [], 'score': [], 'Q_sum': []})
 
         self.fileLog = fileLog
 
@@ -133,8 +133,8 @@ class QAgent():
             # Sauvegarde et affiche les données d'apprentissage
             if n_episodes >= 0:
                 print(
-                    "\r#> Ep.: {}/{}    Avg. Qvalue: {}    Curr. Score: {}  ".
-                    format(episode, n_episodes - 1, np.average(self.Q),
+                    "\r#> Ep.: {}/{}    Sum(Q): {}    Curr. Score: {}  ".
+                    format(episode, n_episodes - 1, np.sum(self.Q),
                            self.spaceInvaders.score_val),
                     end=" ")
                 self.save_log(env, episode)
@@ -145,7 +145,7 @@ class QAgent():
                 self.saveQToFile(
                     os.path.join(
                         os.path.dirname(__file__),
-                        '../QEvolution_Q_SXY_E50000_S500_G0.95_I0.7_F0.01',
+                        '../QEvolution_Q_SXY_E100000_S500_G0.95_I0.7_F0.05',
                         str(episode) + '.npy'))
 
         self.qvalues.to_csv(
@@ -212,6 +212,7 @@ class QAgent():
         self.qvalues = self.qvalues.append(
             {
                 'episode': episode,
-                'score': self.spaceInvaders.score_val
+                'score': self.spaceInvaders.score_val,
+                'Q_sum': np.sum(self.Q)
             },
             ignore_index=True)

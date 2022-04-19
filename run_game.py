@@ -43,7 +43,7 @@ def main():
 
     # -------------------------------------------------------------------------
     for eps_i in [0.7]:
-        for eps_f in [0.01]:
+        for eps_f in [0.05]:
             for max_steps in [500]:
                 n_episodes = 100000
                 # max_steps = 3000
