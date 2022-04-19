@@ -47,6 +47,16 @@ def main():
     eps_profile = EpsilonProfile(0, 0)
 
     for file in os.listdir(os.path.abspath("LearnedQ")):
+        if file == ".DS_Store":
+            continue
+
+        if not file in ["Q_SXY_E50000_S500_G0.95_I0.6_F0.05.npy",
+            "Q_SXY_E50000_S500_G0.95_I0.6_F0.1.npy",
+            "Q_SXY_E50000_S500_G0.95_I0.7_F0.05.npy",
+            "Q_SXY_E100000_S500_G0.95_I0.7_F0.05.npy"
+            ]:
+            continue
+        
         controller = QAgent(game, eps_profile, gamma, alpha)
         controller.loadQFromFile(os.path.join(os.path.abspath("LearnedQ"), file))
 
