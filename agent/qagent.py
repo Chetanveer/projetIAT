@@ -145,7 +145,7 @@ class QAgent():
                 self.saveQToFile(
                     os.path.join(
                         os.path.dirname(__file__),
-                        '../QEvolution_Q_SXY_E100000_S500_G0.95_I0.7_F0.05',
+                        '../QEvolution_Q_SXY_E200000_S500_G0.95_I0.6_F0.05',
                         str(episode) + '.npy'))
 
         self.qvalues.to_csv(
