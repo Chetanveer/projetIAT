@@ -140,14 +140,6 @@ class QAgent():
                 self.save_log(env, episode)
                 state = env.reset()
 
-            # Save Q for for further analysis
-            if episode % 1000 == 0:
-                self.saveQToFile(
-                    os.path.join(
-                        os.path.dirname(__file__),
-                        '../QEvolution_Q_SXY_E200000_S500_G0.95_I0.6_F0.05',
-                        str(episode) + '.npy'))
-
         self.qvalues.to_csv(
             os.path.join(os.path.dirname(__file__), '../visualisation',
                          self.fileLog + '.csv'))
