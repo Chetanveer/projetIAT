@@ -11,7 +11,7 @@ import pandas as pd
 from game import SpaceInvaders
 
 X_MIN = 0
-X_MAX = 76  # TODO
+X_MAX = 76
 Y_MIN = 0
 Y_MAX = 10
 
@@ -168,7 +168,7 @@ class QAgent():
             next_state[1] = Y_MIN
 
         val = (1. - self.alpha) * self.getQ(state, action) + self.alpha * (
-            reward + self.gamma * np.max(self.Q[next_state]))  # TODO maybe
+            reward + self.gamma * np.max(self.Q[next_state]))
 
         # self.Q[state][action] = val
         # self.Q[state[0]][state[1]][state[2]][state[3]][action] = val
